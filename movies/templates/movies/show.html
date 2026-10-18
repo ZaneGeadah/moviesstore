@@ -25,6 +25,45 @@
                     </div>
                 </form>
                 </p>
+                <h2>Rating</h2>
+                <hr />
+                <p id="average-rating">
+                    <b>Average rating:</b>
+                    {% if template_data.average_rating is not None %}
+                    <span class="text-warning">&#9733;</span> {{ template_data.average_rating }} / 5
+                    ({{ template_data.rating_count }} rating{{ template_data.rating_count|pluralize }})
+                    {% else %}
+                    No ratings yet
+                    {% endif %}
+                </p>
+                {% if user.is_authenticated %}
+                <p id="your-rating">
+                    <b>Your rating:</b>
+                    {% if template_data.user_rating %}
+                    {{ template_data.user_rating.stars }} / 5
+                    {% else %}
+                    You haven't rated this movie yet
+                    {% endif %}
+                </p>
+                <form method="POST" action="{% url 'movies.rate' id=template_data.movie.id %}" class="mb-4">
+                    {% csrf_token %}
+                    <div class="btn-group mb-2" role="group" aria-label="Star rating">
+                        {% for n in "12345" %}
+                        <input type="radio" class="btn-check" name="stars" id="star{{ n }}" value="{{ n }}"
+                            autocomplete="off" required
+                            {% if template_data.user_rating and template_data.user_rating.stars|stringformat:"d" == n %}checked{% endif %}>
+                        <label class="btn btn-outline-warning" for="star{{ n }}">{{ n }} &#9733;</label>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <button type="submit" class="btn bg-dark text-white">
+                            {% if template_data.user_rating %}Update Rating{% else %}Submit Rating{% endif %}
+                        </button>
+                    </div>
+                </form>
+                {% else %}
+                <p><a href="{% url 'accounts.login' %}">Log in</a> to rate this movie.</p>
+                {% endif %}
                 <h2>Reviews</h2>
                 <hr />
                 <ul class="list-group">
