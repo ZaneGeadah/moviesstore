@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3">
+    <div class="container">
+        <h2>Top Commenter</h2>
+        <hr />
+        {% if template_data.top_user %}
+        <p>User: {{ template_data.top_user.username }} </p>
+        <p>User: {{ template_data.top_user.num_comments }} </p>
+        {% else %}
+        <p>No Comments.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
