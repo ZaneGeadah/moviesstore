@@ -1,6 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.models import User
+from django.db.models import Sum, Value
+from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404, redirect
 from movies.models import Movie
 from .utils import calculate_cart_total
@@ -55,3 +59,12 @@ def purchase(request):
     template_data['order_id'] = order.id
     return render(request, 'cart/purchase.html',
         {'template_data': template_data})
+
+@staff_member_required
+def top_purchasers(request):
+    users = (User.objects.annotate(purchases=Coalesce(Sum('order__item__quantity'), Value(0))).order_by('-purchases', 'username'))
+    size = request.GET.get('size')
+    if size and size.isdigit() and int(size) > 0:
+        users = users[:int(size)]
+    template_data = {'title': 'Top Purchasers'}
+    return render(request, 'cart/top_purchasers.html', {'template_data': template_data, 'users': users, 'size': size or ''})

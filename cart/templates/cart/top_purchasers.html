@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3">
+    <div class="container">
+        <h2>Top Purchasers</h2>
+        <form method="get" class="mb-3">
+            <input type="number" min="1" name="size" value="{{ size }}" class="form-control d-inline w-auto" placeholder="List size (blank = all)">
+            <button type="submit" class="btn bg-dark text-white">Apply</button>
+            <a href="{% url 'cart.top_purchasers' %}" class="btn btn-outline-secondary">Show all</a>
+        </form>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Movies Purchased</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.purchases }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
