@@ -1,24 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-<table>
+<table class="table table-striped container my-4">
     <thead>
-        <tr><th>Measure</th><th>Movie</th><th>Count</th></tr>
+        <tr>
+            <th>Measure</th>
+            <th>Movie</th>
+            <th>Count</th>
+        </tr>
     </thead>
-    </tbody>
+    <tbody>
         <tr>
             <td>Most purchased</td>
             {% if most_bought %}
-                <td>{{ most_bought.name }}</td><td>{{ most_bought.times_bought }} </td>
+            <td>{{ most_bought.name }}</td>
+            <td>{{ most_bought.times_bought }} </td>
             {% else %}
-                <td colspan="2">No purchases yet</td>
+            <td colspan="2">No purchases yet</td>
             {% endif %}
         </tr>
         <tr>
             <td>Most reviewed</td>
             {% if most_reviewed %}
-                <td>{{ most_reviewed.name }}</td><td>{{ most_reviewed.times_reviewed }} </td>
+            <td>{{ most_reviewed.name }}</td>
+            <td>{{ most_reviewed.times_reviewed }} </td>
             {% else %}
-                <td colspan="2">No reviews yet</td>
+            <td colspan="2">No reviews yet</td>
             {% endif %}
         </tr>
     </tbody>
