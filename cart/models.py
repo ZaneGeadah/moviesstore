@@ -19,3 +19,8 @@ class Item(models.Model):
         on_delete=models.CASCADE)
     def __str__(self):
         return str(self.id) + ' - ' + self.movie.name
+class TopBuyer(User):
+    class Meta:
+        proxy = True
+        verbose_name = 'Top Buyer'
+        verbose_name_plural = 'Top Buyers'
